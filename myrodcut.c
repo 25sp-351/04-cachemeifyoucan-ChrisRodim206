@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include "rodcut.h"
-#define Max_length 1000
-
 
 
 int main() {
@@ -42,6 +40,7 @@ int main() {
     int dynamic[rod_length + 1];
     int cut[rod_length + 1];
 
+    cache_init();
     initialize_arrays(rod_length, dynamic, cut);
     max_value_calculation(rod_length, lengths, values, dynamic, number_of_pieces, cut);
     print_results(rod_length, lengths, dynamic, values, cut);

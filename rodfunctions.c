@@ -3,26 +3,30 @@
 
 void initialize_arrays(int rod_length, int dynamic[], int cut[]) {
     for (int i = 0; i <= rod_length; i++) {
-        dynamic[i] = 0;    // Initialize dynamic array to 0
-        cut[i] = -1;       // Initialize cut array to -1
+        dynamic[i] = 0;
+        cut[i] = -1;
     }
 }
 
 void max_value_calculation(int rod_length, int lengths[], int values[], int dynamic[], int number_of_pieces, int cut[]) {
-    // Loop through each possible rod length from 1 to rod_length
     for (int i = 1; i <= rod_length; i++) {
-        // Check each piece of rod
+        int cached_value;
+        if (cache_get(i, &cached_value)) {
+            dynamic[i] = cached_value;
+            continue;
+        }
+
         for (int j = 0; j < number_of_pieces; j++) {
-            // If the piece can be used (length <= i)
             if (lengths[j] <= i) {
-                // Calculate the new value if this piece is included
                 int new_value = values[j] + dynamic[i - lengths[j]];
                 if (dynamic[i] < new_value) {
-                    dynamic[i] = new_value;  // Update the max value for this length
-                    cut[i] = j;              // Record which piece we used for this length
+                    dynamic[i] = new_value;
+                    cut[i] = j;
                 }
             }
         }
+
+        cache_put(i, dynamic[i]);
     }
 }
 
@@ -48,3 +52,5 @@ void print_results(int rod_length, int lengths[], int dynamic[], int values[], i
         printf("No cuts have been made\n");
     }
 }
+
+

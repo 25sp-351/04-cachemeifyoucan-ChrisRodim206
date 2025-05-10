@@ -21,7 +21,7 @@ void cache_init() {
     cache_count = 0;
 }
 
-// Add a new entry or overwrite the oldest one in FIFO order
+// Add a new entry or overwrite the oldest one in FIFO.
 void cache_put(int key, int value) {
     if (cache_count < CACHE_SIZE) {
         // Insert new entry if space is available
@@ -29,7 +29,7 @@ void cache_put(int key, int value) {
         cache[cache_count].value = value;
         cache_count++;
     } else {
-        // Overwrite the oldest entry (FIFO)
+        // Overwrite the oldest entry
         cache[current_index].key = key;
         cache[current_index].value = value;
     }
@@ -38,7 +38,6 @@ void cache_put(int key, int value) {
     current_index = (current_index + 1) % CACHE_SIZE;
 }
 
-// Retrieve the value from the cache based on the key
 int cache_get(int key, int* value) {
     for (int i = 0; i < cache_count; i++) {
         if (cache[i].key == key) {
